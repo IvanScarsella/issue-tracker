@@ -9,3 +9,18 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255) // sin esto, el límite de caracteres del string es 191, varchar(191)
+  description String   @db.Text // Text se usa para strings mucho mas largos
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt //con esto hacemos que se actualice el valor updatedAt cada vez que se modifica cualquier otro campo
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
